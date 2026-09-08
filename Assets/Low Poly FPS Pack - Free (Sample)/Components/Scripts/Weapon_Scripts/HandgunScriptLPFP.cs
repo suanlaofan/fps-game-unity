@@ -50,6 +50,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	public float autoReloadDelay;
 	//Check if reloading
 	private bool isReloading;
+	private bool autoReloadPending;
 
 	//Holstering weapon
 	private bool hasBeenHolstered = false;
@@ -63,6 +64,8 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	private bool isWalking;
 	//Check if inspecting weapon
 	private bool isInspecting;
+	private bool picoFireAnimationLogged;
+	private bool picoReloadAnimationLogged;
 
 	//How much ammo is currently left
 	private int currentAmmo;
@@ -183,7 +186,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
 	private void LateUpdate () {
 		//Weapon sway
-		if (weaponSway == true) {
+		if (weaponSway == true && !PicoFreshRuntime.IsPicoXrActive) {
 			float movementX = -Input.GetAxis ("Mouse X") * swayAmount;
 			float movementY = -Input.GetAxis ("Mouse Y") * swayAmount;
 			//Clamp movement to min and max values
@@ -201,13 +204,19 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	}
 	
 	private void Update () {
+		if (PicoFreshRuntime.IsPicoXrActive) {
+			// PICO locomotion is supplied by the XR bridge; the authored Animator
+			// still owns the actual arm/gun pose transitions.
+			isRunning = PicoFreshRuntime.LocomotionRunning;
+			isWalking = PicoFreshRuntime.LocomotionMagnitude > 0.05f && !isRunning;
+		}
 
 		//Aiming
 		//Toggle camera FOV when right click is held down
-		if(Input.GetButton("Fire2") && !isReloading && !isRunning && !isInspecting) 
+		if(!PicoFreshRuntime.IsPicoXrActive && Input.GetButton("Fire2") && !isReloading && !isRunning && !isInspecting) 
 		{
 			
-			gunCamera.fieldOfView = Mathf.Lerp (gunCamera.fieldOfView,
+			if (!PicoFreshRuntime.IsPicoXrActive && gunCamera != null) gunCamera.fieldOfView = Mathf.Lerp (gunCamera.fieldOfView,
 				aimFov, fovSpeed * Time.deltaTime);
 			
 			isAiming = true;
@@ -225,7 +234,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		else 
 		{
 			//When right click is released
-			gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
+			if (!PicoFreshRuntime.IsPicoXrActive && gunCamera != null) gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
 				defaultFov,fovSpeed * Time.deltaTime);
 
 			isAiming = false;
@@ -305,8 +314,14 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			//Toggle bool
 			outOfAmmo = true;
 			//Auto reload if true
-			if (autoReload == true && !isReloading) 
+			if (autoReload == true && !isReloading && !autoReloadPending) 
 			{
+				autoReloadPending = true;
+				if (PicoFreshRuntime.IsPicoXrActive)
+				{
+					Debug.Log("[PICO-FRESH] PICO_FRESH_AUTO_RELOAD_BEGIN weapon='" + name +
+						"' ammo=0 delay=" + autoReloadDelay.ToString("F2") + ".", this);
+				}
 				StartCoroutine (AutoReload ());
 			}
 				
@@ -326,8 +341,12 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		}
 
 		//Shooting 
-		if (Input.GetMouseButtonDown (0) && !outOfAmmo && !isReloading && !isInspecting && !isRunning) 
+		if ((Input.GetMouseButtonDown (0) || PicoFreshRuntime.FirePressedThisFrame) && !outOfAmmo && !isReloading && !isInspecting && !isRunning) 
 		{
+			if (PicoFreshRuntime.IsPicoXrActive && !picoFireAnimationLogged) {
+				picoFireAnimationLogged = true;
+				Debug.Log("[PICO-FRESH] PICO_FRESH_WEAPON_ANIMATION event=Fire weapon='" + name + "'.", this);
+			}
 			anim.Play ("Fire", 0, 0f);
 	
 			muzzleParticles.Emit (1);
@@ -434,9 +453,13 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			anim.SetBool ("Holster", false);
 		}
 
-		//Reload 
-		if (Input.GetKeyDown (KeyCode.R) && !isReloading && !isInspecting) 
+		//Reload (keyboard on desktop, right-controller secondary button on PICO)
+		if ((Input.GetKeyDown (KeyCode.R) || PicoFreshRuntime.ReloadPressedThisFrame) && !isReloading && !isInspecting) 
 		{
+			if (PicoFreshRuntime.IsPicoXrActive && !picoReloadAnimationLogged) {
+				picoReloadAnimationLogged = true;
+				Debug.Log("[PICO-FRESH] PICO_FRESH_WEAPON_ANIMATION event=Reload weapon='" + name + "'.", this);
+			}
 			//Reload
 			Reload ();
 
@@ -447,31 +470,14 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			}
 		}
 
-		//Walking when pressing down WASD keys
-		if (Input.GetKey (KeyCode.W) && !isRunning || 
-			Input.GetKey (KeyCode.A) && !isRunning || 
-			Input.GetKey (KeyCode.S) && !isRunning || 
-			Input.GetKey (KeyCode.D) && !isRunning) 
-		{
-			anim.SetBool ("Walk", true);
-		} else {
-			anim.SetBool ("Walk", false);
+		if (!PicoFreshRuntime.IsPicoXrActive) {
+			// Keep the original desktop keyboard animation behavior unchanged.
+			isWalking = (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.A) ||
+				Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.D)) && !isRunning;
+			isRunning = Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.LeftShift);
 		}
-
-		//Running when pressing down W and Left Shift key
-		if ((Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.LeftShift))) 
-		{
-			isRunning = true;
-		} else {
-			isRunning = false;
-		}
-		
-		//Run anim toggle
-		if (isRunning == true) {
-			anim.SetBool ("Run", true);
-		} else {
-			anim.SetBool ("Run", false);
-		}
+		anim.SetBool ("Walk", isWalking);
+		anim.SetBool ("Run", isRunning);
 	}
 
 	private IEnumerator HandgunSliderBackDelay () {
@@ -522,9 +528,15 @@ public class HandgunScriptLPFP : MonoBehaviour {
 				StartCoroutine (ShowBulletInMag ());
 			}
 		} 
-		//Restore ammo when reloading
-		currentAmmo = ammo;
-		outOfAmmo = false;
+			//Restore ammo when reloading
+			currentAmmo = ammo;
+			outOfAmmo = false;
+			autoReloadPending = false;
+			if (PicoFreshRuntime.IsPicoXrActive)
+			{
+				Debug.Log("[PICO-FRESH] PICO_FRESH_AUTO_RELOAD_COMPLETE weapon='" + name +
+					"' ammo=" + currentAmmo + ".", this);
+			}
 	}
 
 	//Reload

@@ -1,0 +1,167 @@
+[
+  {
+    "kind": "Adaptive (API 26)",
+    "slots": [
+      {
+        "width": 432,
+        "height": 432,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      },
+      {
+        "width": 324,
+        "height": 324,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      },
+      {
+        "width": 216,
+        "height": 216,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      },
+      {
+        "width": 162,
+        "height": 162,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      },
+      {
+        "width": 108,
+        "height": 108,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      },
+      {
+        "width": 81,
+        "height": 81,
+        "layerCount": 2,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png",
+          "Assets/Level0VR/Branding/Level0AdaptiveForeground.png"
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "Round (API 25)",
+    "slots": [
+      {
+        "width": 192,
+        "height": 192,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 144,
+        "height": 144,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 96,
+        "height": 96,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 72,
+        "height": 72,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 48,
+        "height": 48,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 36,
+        "height": 36,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "Legacy",
+    "slots": [
+      {
+        "width": 192,
+        "height": 192,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 144,
+        "height": 144,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 96,
+        "height": 96,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 72,
+        "height": 72,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 48,
+        "height": 48,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      },
+      {
+        "width": 36,
+        "height": 36,
+        "layerCount": 1,
+        "paths": [
+          "Assets/Level0VR/Branding/Level0Icon.png"
+        ]
+      }
+    ]
+  }
+]

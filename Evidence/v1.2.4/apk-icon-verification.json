@@ -1,0 +1,454 @@
+{
+  "passed": true,
+  "apk": "./Builds/PICO/Level0-PICO-VR-v1.2.4.apk",
+  "apk_sha256": "cc699d1d4110f4997d94f4dd0172d0e86c4433b2132a46b7474d3fc2e9c6f272",
+  "version_code": 16,
+  "source_icon": "./Assets/Level0VR/Branding/Level0Icon.png",
+  "source_sha256": "b34b624c198cad46ae68d901a2501ab5a1b8a24895ab3a4f88341fbd55e6ddf6",
+  "source_dimensions": [
+    1024,
+    1024
+  ],
+  "density_png_resources": [
+    {
+      "density": "ldpi",
+      "kind": "legacy",
+      "apk_resource": "res/Ut.png",
+      "width": 36,
+      "height": 36,
+      "sha256": "a350d7290d2284deb21ca3c503b5cca951c17a1516420e5fb37424c1d2d9f92b",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 910,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.69727,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "ldpi",
+      "kind": "round",
+      "apk_resource": "res/mG.png",
+      "width": 36,
+      "height": 36,
+      "sha256": "a350d7290d2284deb21ca3c503b5cca951c17a1516420e5fb37424c1d2d9f92b",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 910,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.69727,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "ldpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/VA.png",
+      "width": 81,
+      "height": 81,
+      "sha256": "162ba718fd200eedb9ab755e103d1660111fa6c857a997592b2d51089a647ec1",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 3009,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.48595,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "ldpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/QR.png",
+      "width": 81,
+      "height": 81,
+      "sha256": "49c0f8861f9830547bd0ffdb2d471991999e099c551968f7d08d35ba47747d4c",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "mdpi",
+      "kind": "legacy",
+      "apk_resource": "res/W5.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "91bcdb5f7b591d3a5f7e7b83d1c4ca04d60f86ed686c25bedc4e5868d64087a1",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1425,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.63151,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "mdpi",
+      "kind": "round",
+      "apk_resource": "res/b2.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "91bcdb5f7b591d3a5f7e7b83d1c4ca04d60f86ed686c25bedc4e5868d64087a1",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1425,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.63151,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "mdpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/3z.png",
+      "width": 108,
+      "height": 108,
+      "sha256": "2e0d37e071ef1f51b400b7f55d3e81144c6108c9aca3f891b39a81c04520c59a",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 4404,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.41481,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "mdpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/QZ.png",
+      "width": 108,
+      "height": 108,
+      "sha256": "94e491d28e5cfd119cff143484f8d88abbc51cd383a93d819283025c1c2fc5b8",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "hdpi",
+      "kind": "legacy",
+      "apk_resource": "res/YA.png",
+      "width": 72,
+      "height": 72,
+      "sha256": "9a1ce3adadfbd053fd69e3470071215a656e793077a1e3c537427a06b1b54476",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 2570,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.5108,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "hdpi",
+      "kind": "round",
+      "apk_resource": "res/K0.png",
+      "width": 72,
+      "height": 72,
+      "sha256": "9a1ce3adadfbd053fd69e3470071215a656e793077a1e3c537427a06b1b54476",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 2570,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.5108,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "hdpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/I2.png",
+      "width": 162,
+      "height": 162,
+      "sha256": "babcc53d2353ae46a311118b4eb765cabfd79042928cec0bd9130be8cf4efb40",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 7254,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.3477,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "hdpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/zr.png",
+      "width": 162,
+      "height": 162,
+      "sha256": "b3b66690173947152049ca24178d4557fed43f76b1475217779eddbcef9361ec",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xhdpi",
+      "kind": "legacy",
+      "apk_resource": "res/l4.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "c6b4d007e5a23d946e1391bc3a4f65449d0ac25be6ad7dad87baa4cfcf8867b2",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 3751,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.45208,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xhdpi",
+      "kind": "round",
+      "apk_resource": "res/H-.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "c6b4d007e5a23d946e1391bc3a4f65449d0ac25be6ad7dad87baa4cfcf8867b2",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 3751,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.45208,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xhdpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/6h.png",
+      "width": 216,
+      "height": 216,
+      "sha256": "fc2ad8e2a26e31018773bbee2630f67cf7ade23a3c330e3bdd09ce8fbcfd5c3d",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 10076,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.30669,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xhdpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/Em.png",
+      "width": 216,
+      "height": 216,
+      "sha256": "21a67a0710cfb7bfa362991aafa71b9e706bbdbab73384c309df8f1bac34ab51",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xxhdpi",
+      "kind": "legacy",
+      "apk_resource": "res/Iw.png",
+      "width": 144,
+      "height": 144,
+      "sha256": "a08faa796dc9aca9c687242453ee957979afad82e6dfecd9be711cc8a13d3c38",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 6276,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.37215,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xxhdpi",
+      "kind": "round",
+      "apk_resource": "res/De.png",
+      "width": 144,
+      "height": 144,
+      "sha256": "a08faa796dc9aca9c687242453ee957979afad82e6dfecd9be711cc8a13d3c38",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 6276,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.37215,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xxhdpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/cV.png",
+      "width": 324,
+      "height": 324,
+      "sha256": "508b4ab77dd35e3a17acc07d475a6edd4e98faefded787f9ba8b38406e56b9bf",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 15649,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.28489,
+      "source_art_matches": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xxhdpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/Lf.png",
+      "width": 324,
+      "height": 324,
+      "sha256": "449d0babb982f76fbf5bc303d664b5d650ecffce6f0fbbd9d232413b10c1f7d7",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true
+    },
+    {
+      "density": "xxxhdpi",
+      "kind": "legacy",
+      "apk_resource": "res/oj.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "03530e694e84b4b9f7c898473fcca4c95b5af6c31c741b130f4caba8572a9059",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 8836,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.33152,
+      "source_art_matches": true,
+      "pixel_check_pass": true,
+      "extracted_path": "./Evidence/v1.2.4/apk-icon-legacy-xxxhdpi.png"
+    },
+    {
+      "density": "xxxhdpi",
+      "kind": "round",
+      "apk_resource": "res/FN.png",
+      "width": 192,
+      "height": 192,
+      "sha256": "03530e694e84b4b9f7c898473fcca4c95b5af6c31c741b130f4caba8572a9059",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 8836,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.33152,
+      "source_art_matches": true,
+      "pixel_check_pass": true,
+      "extracted_path": "./Evidence/v1.2.4/apk-icon-round-xxxhdpi.png"
+    },
+    {
+      "density": "xxxhdpi",
+      "kind": "adaptive_background",
+      "apk_resource": "res/Gx.png",
+      "width": 432,
+      "height": 432,
+      "sha256": "071f69a68413721e41d16b108360751983368d3a2c5b5e7486723c481856c7c4",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 21097,
+      "closest_source_resample": "BILINEAR",
+      "mean_absolute_rgb_error_0_255": 0.26144,
+      "source_art_matches": true,
+      "pixel_check_pass": true,
+      "extracted_path": "./Evidence/v1.2.4/apk-icon-adaptive_background-xxxhdpi.png"
+    },
+    {
+      "density": "xxxhdpi",
+      "kind": "adaptive_foreground",
+      "apk_resource": "res/as.png",
+      "width": 432,
+      "height": 432,
+      "sha256": "ffba6e4b930c012c8441a26943ecc04fd809592bed289c02b2e675ce31689aa4",
+      "alpha_extrema": [
+        0,
+        0
+      ],
+      "white_corner_pixels": 0,
+      "opaque_color_count": 1,
+      "fully_transparent": true,
+      "pixel_check_pass": true,
+      "extracted_path": "./Evidence/v1.2.4/apk-icon-adaptive_foreground-xxxhdpi.png"
+    }
+  ],
+  "visual_review": {
+    "passed": true,
+    "reviewed_extracted_images": [
+      "apk-icon-legacy-xxxhdpi.png",
+      "apk-icon-adaptive_background-xxxhdpi.png",
+      "apk-icon-adaptive_foreground-xxxhdpi.png"
+    ],
+    "observations": "Legacy and adaptive background show the existing 03_wire_full_bleed artwork: yellow pillar room, central wire monster, rifle at lower right. No Unity default logo and no white outer border. Foreground has alpha zero at every pixel; displayed black in the viewer because it is fully transparent.",
+    "device_launcher_visual_acceptance": false
+  },
+  "scope": "Final APK binary/resource and pixel validation, not launcher/device runtime acceptance.",
+  "binary_xml_references": {
+    "res/Qu.xml": "N: android=http://schemas.android.com/apk/res/android\n  E: adaptive-icon (line=2)\n    E: background (line=3)\n      A: android:drawable(0x01010199)=@0x7f030002\n    E: foreground (line=4)\n      A: android:drawable(0x01010199)=@0x7f030003\n",
+    "res/hH.xml": "N: android=http://schemas.android.com/apk/res/android\n  E: adaptive-icon (line=2)\n    E: background (line=3)\n      A: android:drawable(0x01010199)=@0x7f030002\n    E: foreground (line=4)\n      A: android:drawable(0x01010199)=@0x7f030003\n",
+    "AndroidManifest.xml": "    A: android:versionCode(0x0101021b)=(type 0x10)0x10\n    A: android:versionName(0x0101021c)=\"1.2.4-vr-release\" (Raw: \"1.2.4-vr-release\")\n      A: android:icon(0x01010002)=@0x7f030000\n      A: android:roundIcon(0x0101052c)=@0x7f030001"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "apk": "./Builds/PICO/Level0-PICO-VR-v1.2.3.apk",
+  "bytes": 207520046,
+  "sha256": "42198f7f7832b4f4f069a755d5cc68acfd55672eb2a653eafc3e28dd067b0d86",
+  "package": "package: name='com.suanlaofan.fpsgame.picofresh' versionCode='15' versionName='1.2.3-vr-feedback' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "nativeCode": [
+    "native-code: 'arm64-v8a'"
+  ],
+  "zipIntegrity": "PASS",
+  "zipalign16KiB": "PASS",
+  "signature": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
+  "bundleBytes": 154267152,
+  "bundleSha256": "2923a11610bdd6e7ac8d1e1d60e1d027cba1d25d81c2e8a89b96377afbe4d356",
+  "bundleMatchesSource": true,
+  "nativePlayerData": "data.unity3d",
+  "hardwareAcceptance": false
+}

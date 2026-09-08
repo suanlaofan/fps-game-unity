@@ -1,0 +1,21 @@
+09-08 15:48:37.361 11530 11545 I Unity   : [PICO-FRESH] PICO_FRESH_XR_SESSION_READY displayRunning=True.
+09-08 15:48:37.947 11530 11545 I Unity   : LEVEL0_WEAPON_READY parent=Right-Controller trigger_contact_error=0.00000 trigger_model_local=(0.00, -0.01, 0.16) mount_euler=(15.00, 0.00, 0.00) muzzle_controller_local=(0.00, -0.26, 0.97) weapon_renderers=2 hidden_arm_renderers=1 ammo=24 damage=15 rate=5
+09-08 15:48:37.954 11530 11545 I Unity   : LEVEL0_PERF_FILE /storage/emulated/0/Android/data/com.suanlaofan.fpsgame.picofresh/files/level0-performance.csv
+09-08 15:48:37.954 11530 11545 I Unity   : LEVEL0_VR_READY locomotion=capsule gun=right-controller ui=world-space reload=right-B-or-grip sprint=left-stick-click-toggle-or-X-hold input=native-xr
+09-08 15:48:37.960 11530 11545 I Unity   : LEVEL0_INPUT_RIGHT device=PICO Controller-Right secondary=True gripButton=True gripAxis=True
+09-08 15:48:37.960 11530 11545 I Unity   : LEVEL0_INPUT_LEFT device=PICO Controller-Left sprintStickClick=True
+09-08 15:48:37.961 11530 11545 I Unity   : LEVEL0_UI_PRESENTATION fullscreen=True mask=32 hud=front-world
+09-08 15:48:37.963 11530 11545 I Unity   : [PICO-FRESH] PICO_FRESH_HANDOFF_COMPLETE scene='jogo'.
+09-08 15:48:38.271 11530 11545 I Unity   : LEVEL0_MENU_STEREO_FIT eyes=2 pass=True localRect=(-1.4719, -1.5038, 1.4718, 1.5038) center=(-0.0001, 0.0000) scale=0.000946 viewportL=(0.2261, 0.3403, 0.7938, 0.6597) viewportR=(0.2061, 0.3403, 0.7738, 0.6597) projectionL=(0.7813, 0.7813, 0.0000, 0.0000) projectionR=(0.7813, 0.7813, 0.0000, 0.0000)
+09-08 15:48:42.960 11530 11545 I Unity   : LEVEL0_TRACKING headTracked=True rawHead=(-0.12, 1.74, 0.08) camera=(-12.38, 1.78, -18.27) body=(-12.26, 0.04, -18.34) blocked=False left=True right=True rightLocalToHead=(0.25, -0.35, 0.40) rightForwardToHead=(-0.69, -0.09, 0.72) msaa=2
+09-08 15:48:42.962 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:48:42.9622860Z,menu,5.01,285,56.93,18.39,63.75,15.74,unavailable,-1,4,-1,170.7,1,0
+09-08 15:48:47.976 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:48:47.9758410Z,menu,5.01,301,60.04,17.83,18.40,16.46,unavailable,-1,4,-1,170.7,1,0
+09-08 15:48:52.977 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:48:52.9763330Z,menu,5.00,300,60.00,18.00,18.38,16.67,unavailable,-1,4,-1,172.7,1,0
+09-08 15:48:57.992 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:48:57.9924690Z,menu,5.02,301,60.02,18.01,19.02,15.91,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:02.993 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:02.9933680Z,menu,5.00,300,59.99,18.07,18.57,17.68,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:08.011 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:08.0106530Z,menu,5.02,296,59.00,18.30,26.66,16.49,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:13.027 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:13.0256100Z,menu,5.01,300,59.83,18.48,19.53,16.41,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:18.043 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:18.0428030Z,menu,5.02,301,60.02,18.48,20.00,17.42,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:23.046 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:23.0454620Z,menu,5.00,300,59.97,18.45,19.84,16.08,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:28.063 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:28.0625860Z,menu,5.02,301,60.00,17.60,18.36,16.70,unavailable,-1,4,-1,172.7,1,0
+09-08 15:49:33.079 11530 11545 I Unity   : LEVEL0_PERF 2026-09-08T07:49:33.0787930Z,menu,5.02,301,60.01,17.44,17.81,16.60,unavailable,-1,4,-1,172.7,1,0

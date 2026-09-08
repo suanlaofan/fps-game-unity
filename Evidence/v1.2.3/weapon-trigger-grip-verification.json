@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "scope": "Source mesh measurement and Unity Editor pose/visual acceptance; physical device/controller pose acceptance remains separate.",
+  "source_geometry": {
+    "old_anchor": [
+      0,
+      -0.078,
+      0.083
+    ],
+    "new_trigger_contact": [
+      0,
+      -0.01266,
+      0.16069
+    ],
+    "trigger_connected_component_vertices": 44,
+    "trigger_bounds_min": [
+      -0.00230026245,
+      -0.0298956633,
+      0.149038315
+    ],
+    "trigger_bounds_max": [
+      0.00230789185,
+      0.00457561,
+      0.172344208
+    ],
+    "stock_rear_z": -0.181753159,
+    "muzzle_end_z": 0.7401161
+  },
+  "normal_hold": {
+    "mode": "normal-hold-editor-preview",
+    "anchor": "(0.00000, -0.01266, 0.16069)",
+    "head": "(0.0000, 1.6500, 0.0000)",
+    "hand": "(0.2500, 1.3000, 0.4000)",
+    "handRotation": "(0.0000, 0.0000, 0.0000)",
+    "weaponScale": "(1.00, 1.00, 1.00)",
+    "gripError": 0.0,
+    "boresight": "(0.00000, -0.25882, 0.96593)",
+    "downAngle": 15.0000038,
+    "fov": 92.0,
+    "aspect": 1.3598901
+  },
+  "intentional_inspection": {
+    "mode": "intentional-inspection-editor-preview",
+    "head": "(0.0000, 1.6500, 0.0000)",
+    "hand": "(-0.1000, 1.3500, 0.8000)",
+    "handRotation": "(0.0000, 90.0000, 0.0000)",
+    "weaponScale": "(1.00, 1.00, 1.00)",
+    "gripError": 0.0,
+    "boresight": "(0.00000, -0.25882, 0.96593)",
+    "downAngle": 15.0000038
+  },
+  "structure": {
+    "anchor": "(0.00000, -0.01266, 0.16069)",
+    "gripError": 0.0,
+    "renderedGunVertices": 4186,
+    "enabledGunRenderers": 2,
+    "enabledSkinRenderers": 0,
+    "enabledXrCameras": 1,
+    "boresight": "(0.00000, -0.25882, 0.96593)",
+    "downAngle": 15.0000038
+  },
+  "visual_observations": {
+    "normal": "Rifle front remains visible at lower right; rear stock naturally leaves the viewport at normal hold.",
+    "inspection": "Complete stock, pistol grip, trigger, magazine, handguard, sights and barrel are visible when the hand is moved forward and rotated sideways.",
+    "anchor": "Temporary 12 mm marker visually lands on the trigger, verified before marker cleanup."
+  },
+  "evidence": [
+    "weapon-normal-trigger-editor.png",
+    "weapon-inspection-trigger-editor.png",
+    "weapon-trigger-contact-proof-editor.png",
+    "weapon-trigger-source-measurement.png"
+  ],
+  "cleanup": "Temporary marker/material removed, Play stopped, jogo is the only open scene; no scene saved.",
+  "weapon_sha256": "7d4d3f0e1e02c60c02c5fdb87a7bf9d1e94d5d4b6e5bccba4b9201c41ed19e87"
+}

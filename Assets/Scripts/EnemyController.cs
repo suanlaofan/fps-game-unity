@@ -11,6 +11,8 @@ public class EnemyController : MonoBehaviour
 
     [Header("Chase")]
     [Min(0.1f)] public float moveSpeed = 7f;
+    // Retained for scene compatibility with the earlier copy, but no phase
+    // movement is used. All chase movement stays on the baked NavMesh.
     [Min(0.1f)] public float phaseRecoveryRadius = 2f;
     [Min(0.05f)] public float phaseGroundTolerance = 0.2f;
     [Min(0f)] public float phaseEnterDelay = 0.03f;
@@ -46,8 +48,6 @@ public class EnemyController : MonoBehaviour
     private Collider playerCollider;
     private Camera playerViewCamera;
     private float nextCameraSearchTime;
-    private bool isPhasing;
-    private float phaseGroundY;
     private bool playerCanSeeEnemy;
     private bool rawPlayerVisibility = true;
     private float rawVisibilitySince;
@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
     public int MaxHealth => maxHealth;
     public bool IsDead => isDead;
     public bool PlayerCanSeeEnemy => playerCanSeeEnemy;
-    public bool IsPhasing => isPhasing;
+    public bool IsPhasing => false;
     public float CurrentMoveSpeed => moveSpeed;
     public Camera PlayerViewCamera => playerViewCamera;
 
@@ -75,7 +75,6 @@ public class EnemyController : MonoBehaviour
         phaseGroundTolerance = Mathf.Max(0.05f, phaseGroundTolerance);
         phaseEnterDelay = Mathf.Max(0f, phaseEnterDelay);
         phaseExitDelay = Mathf.Max(0f, phaseExitDelay);
-        phaseGroundY = transform.position.y;
         rawVisibilitySince = Time.unscaledTime;
         playerCanSeeEnemy = true;
         visibilityRenderers = GetComponentsInChildren<Renderer>(true);
@@ -83,6 +82,9 @@ public class EnemyController : MonoBehaviour
         {
             agent.speed = moveSpeed;
         }
+
+        Debug.Log("[PICO-FRESH] PICO_FRESH_ENEMY_NAVMESH_ONLY enemy='" + name +
+                  "' wallPhasing=false collisionNavigation=true.", this);
 
         maxHealth = Mathf.Max(1, maxHealth);
         currentHealth = maxHealth;
@@ -94,7 +96,7 @@ public class EnemyController : MonoBehaviour
         }
         if (player != null)
         {
-            playerCollider = player.GetComponent<Collider>();
+            playerCollider = (PicoFreshRuntime.IsPicoXrActive ? (Collider)player.GetComponent<CharacterController>() : player.GetComponent<Collider>());
         }
         if (horrorAudio == null)
         {
@@ -149,6 +151,8 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private float nextPathTime;
+
     private void ChasePlayer()
     {
         // A visible enemy must use the baked walkable surface. If recovery fails
@@ -165,57 +169,9 @@ public class EnemyController : MonoBehaviour
             Vector3 target = GetPlayerNavigationTarget();
             if (NavMesh.SamplePosition(target, out NavMeshHit hit, 1.25f, agent.areaMask))
             {
-                agent.SetDestination(hit.position);
+                if (Time.time >= nextPathTime) { agent.SetDestination(hit.position); nextPathTime = Time.time + 0.2f; }
             }
         }
-    }
-
-    private void PhaseChasePlayer()
-    {
-        BeginPhaseChase();
-        SetMotionState(2);
-
-        if (player == null)
-        {
-            return;
-        }
-
-        Vector3 target = player.position;
-        target.y = phaseGroundY;
-        Vector3 direction = target - transform.position;
-        direction.y = 0f;
-        if (direction.sqrMagnitude <= 0.0001f)
-        {
-            return;
-        }
-
-        float angularSpeed = agent != null ? agent.angularSpeed : 180f;
-        Quaternion desiredRotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, angularSpeed * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-        Physics.SyncTransforms();
-    }
-
-    private void BeginPhaseChase()
-    {
-        if (isPhasing)
-        {
-            return;
-        }
-
-        phaseGroundY = transform.position.y;
-        isPhasing = true;
-        if (agent != null && agent.enabled)
-        {
-            if (agent.isOnNavMesh)
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-            }
-            agent.enabled = false;
-        }
-
-        Debug.Log($"[EnemyPhase] ENTER enemy='{name}' speed={moveSpeed:0.##} groundY={phaseGroundY:0.###}.", this);
     }
 
     private bool TryResumeNavigation()
@@ -229,51 +185,31 @@ public class EnemyController : MonoBehaviour
         {
             agent.speed = moveSpeed;
             agent.isStopped = false;
-            ExitPhaseChase();
             return true;
         }
 
         int areaMask = agent.areaMask;
-        Vector3 queryPosition = transform.position;
-        queryPosition.y = phaseGroundY;
-        if (!NavMesh.SamplePosition(queryPosition, out NavMeshHit hit, phaseRecoveryRadius, areaMask) ||
-            Mathf.Abs(hit.position.y - phaseGroundY) > phaseGroundTolerance)
+        if (!NavMesh.SamplePosition(transform.position, out NavMeshHit hit, phaseRecoveryRadius, areaMask))
         {
             return false;
         }
 
-        if (agent.enabled)
+        // Recover only to a nearby walkable point. Do not move toward the
+        // player through geometry when no valid NavMesh point is available.
+        if (!agent.enabled)
         {
-            agent.enabled = false;
+            agent.enabled = true;
         }
-
-        Vector3 recoveredPosition = transform.position;
-        recoveredPosition.y = hit.position.y;
-        transform.position = recoveredPosition;
-        Physics.SyncTransforms();
-        agent.enabled = true;
         if (!agent.isOnNavMesh)
         {
             agent.enabled = false;
             return false;
         }
 
-        agent.Warp(recoveredPosition);
+        agent.Warp(hit.position);
         agent.speed = moveSpeed;
         agent.isStopped = false;
-        ExitPhaseChase();
         return true;
-    }
-
-    private void ExitPhaseChase()
-    {
-        if (!isPhasing)
-        {
-            return;
-        }
-
-        isPhasing = false;
-        Debug.Log($"[EnemyPhase] EXIT enemy='{name}' navMesh={agent != null && agent.isOnNavMesh} speed={moveSpeed:0.##}.", this);
     }
 
     private void AttackPlayer()
@@ -311,7 +247,7 @@ public class EnemyController : MonoBehaviour
         Collider enemyCollider = GetComponent<Collider>();
         if (playerCollider == null)
         {
-            playerCollider = player.GetComponent<Collider>();
+            playerCollider = (PicoFreshRuntime.IsPicoXrActive ? (Collider)player.GetComponent<CharacterController>() : player.GetComponent<Collider>());
         }
 
         Vector3 enemyChest = enemyCollider != null ? enemyCollider.bounds.center : transform.position + Vector3.up * 1.1f;
@@ -336,7 +272,7 @@ public class EnemyController : MonoBehaviour
         Vector3 target = player.position;
         if (playerCollider == null)
         {
-            playerCollider = player.GetComponent<Collider>();
+            playerCollider = (PicoFreshRuntime.IsPicoXrActive ? (Collider)player.GetComponent<CharacterController>() : player.GetComponent<Collider>());
         }
         if (playerCollider != null)
         {
@@ -522,7 +458,7 @@ public class EnemyController : MonoBehaviour
 
         if (playerCollider == null)
         {
-            playerCollider = player.GetComponent<Collider>();
+            playerCollider = (PicoFreshRuntime.IsPicoXrActive ? (Collider)player.GetComponent<CharacterController>() : player.GetComponent<Collider>());
         }
 
         Collider enemyCollider = GetComponent<Collider>();
@@ -576,6 +512,13 @@ public class EnemyController : MonoBehaviour
         }
 
         nextCameraSearchTime = Time.unscaledTime + CameraSearchInterval;
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null && mainCamera.isActiveAndEnabled && IsLayerRenderedByCamera(mainCamera))
+        {
+            playerViewCamera = mainCamera;
+            return playerViewCamera;
+        }
+
         Camera[] cameras = player.GetComponentsInChildren<Camera>(true);
         Camera best = null;
         float bestFarClip = -1f;
@@ -705,20 +648,14 @@ public class EnemyController : MonoBehaviour
             }
             AttackPlayer();
         }
-        else if (!playerCanSeeEnemy)
-        {
-            if (horrorAudio != null)
-            {
-                horrorAudio.SetChasing(true);
-            }
-            PhaseChasePlayer();
-        }
         else
         {
             if (horrorAudio != null)
             {
                 horrorAudio.SetChasing(true);
             }
+            // Visibility only controls audio/state feedback. Movement always
+            // uses the NavMesh so an occluded enemy cannot cross walls.
             ChasePlayer();
         }
     }

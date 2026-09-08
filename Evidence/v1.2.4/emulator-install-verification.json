@@ -1,0 +1,13 @@
+{
+  "device": "emulator-5554",
+  "avd": "Pico_Emulator_0_13",
+  "versionName": "1.2.4-vr-release",
+  "versionCode": 16,
+  "runningAtCheck": true,
+  "applicationLabel": "Level0",
+  "installedBaseApkSha256": "cc699d1d4110f4997d94f4dd0172d0e86c4433b2132a46b7474d3fc2e9c6f272",
+  "installedHashMatchesRelease": true,
+  "nativeStartupMarkers": 6,
+  "physicalHeadsetAcceptance": false,
+  "scope": "Installation and XR startup only; gameplay validation remains the v1.2.3 baseline."
+}

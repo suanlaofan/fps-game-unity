@@ -11,6 +11,7 @@ public static class BloodSplatterEffect
     /// </summary>
     public static void SpawnCreatureHit(Vector3 position, Vector3 normal, float scale = 1f)
     {
+        if (PicoFreshRuntime.IsPicoXrActive) { Level0HitFx.Emit(position, normal); return; }
         Vector3 direction = normal.sqrMagnitude > 0.001f ? normal.normalized : Vector3.up;
         float size = Mathf.Clamp(scale, 0.65f, 1.45f);
         GameObject effect = new GameObject("Creature Blood Impact");
@@ -22,6 +23,7 @@ public static class BloodSplatterEffect
 
     public static void Spawn(Vector3 position, Vector3 normal, float scale = 1f)
     {
+        if (PicoFreshRuntime.IsPicoXrActive) { Level0HitFx.Emit(position, normal); return; }
         Vector3 direction = normal.sqrMagnitude > 0.001f ? normal.normalized : Vector3.up;
         GameObject effect = new GameObject("Blood Splatter");
         effect.transform.SetPositionAndRotation(position + direction * 0.03f, Quaternion.LookRotation(direction));

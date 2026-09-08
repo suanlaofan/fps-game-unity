@@ -58,6 +58,13 @@ public class Level0GameFlow : MonoBehaviour
     private Animator[] enemyAnimators;
     private bool initialized;
     private GameState state;
+    [Header("Opening preparation")]
+    public float preparationSeconds = 8f;
+    public float minimumEnemyDistance = 18f;
+    private float enemyReleaseAt;
+    private Coroutine preparation;
+    public float PreparationRemaining => state == GameState.Playing ? Mathf.Max(0, enemyReleaseAt-Time.time) : 0;
+    public float EnemySpawnDistance { get; private set; }
 
     public GameState CurrentState => state;
 
@@ -95,6 +102,17 @@ public class Level0GameFlow : MonoBehaviour
         }
     }
 
+    private static bool DesktopKeyDown(KeyCode key)
+    {
+        if (!Application.isEditor) return false;
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard == null) return false;
+        if (key == KeyCode.Return) return keyboard.enterKey.wasPressedThisFrame;
+        if (key == KeyCode.Space) return keyboard.spaceKey.wasPressedThisFrame;
+        if (key == KeyCode.Escape) return keyboard.escapeKey.wasPressedThisFrame;
+        return false;
+    }
+
     private void Update()
     {
         if (!initialized)
@@ -117,11 +135,12 @@ public class Level0GameFlow : MonoBehaviour
                 break;
 
             case GameState.Menu:
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                if (DesktopKeyDown(KeyCode.Return) || DesktopKeyDown(KeyCode.Space) ||
+                    PicoFreshRuntime.MenuPressedThisFrame)
                 {
                     StartGame();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (DesktopKeyDown(KeyCode.Escape))
                 {
                     ExitGame();
                 }
@@ -129,11 +148,12 @@ public class Level0GameFlow : MonoBehaviour
 
             case GameState.Victory:
             case GameState.GameOver:
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                if (DesktopKeyDown(KeyCode.Return) || DesktopKeyDown(KeyCode.Space) ||
+                    PicoFreshRuntime.MenuPressedThisFrame)
                 {
                     ContinueGame();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (DesktopKeyDown(KeyCode.Escape))
                 {
                     ReturnToMainMenu();
                 }
@@ -195,16 +215,68 @@ public class Level0GameFlow : MonoBehaviour
     {
         state = GameState.Playing;
         Time.timeScale = 1f;
-        SetEnemyRootActive(true);
+        SetEnemyRootActive(false);
+        PositionEnemyForNewRun();
+        enemyReleaseAt = Time.time + preparationSeconds;
+        if (preparation != null) StopCoroutine(preparation);
+        preparation = StartCoroutine(ReleaseEnemyAfterPreparation());
         SetBgmRootActive(true);
         SetPlayerGameplayEnabled(true);
-        // Keep the supplied Figma menu/result screens intact, but restore the
-        // project's original gameplay HUD instead of the later hand-authored
-        // Gameplay HUD canvas.
+        // The authored Figma pages are reserved for menu and result states.
+        // During a run the original project HUD (CombatHUD + Player Canvas)
+        // supplies the health bars, ammo and weapon readout.
         ShowOnly(null);
         SetGameplayCursor();
         UpdateGameplayHud();
-        Debug.Log("[Level0UI] State=Playing.", this);
+        Debug.Log("[Level0UI] State=Playing hud=front-world preparation="+preparationSeconds+" enemyDistance="+EnemySpawnDistance, this);
+    }
+
+    private System.Collections.IEnumerator ReleaseEnemyAfterPreparation()
+    {
+        while (state == GameState.Playing && Time.time < enemyReleaseAt) yield return null;
+        if (state != GameState.Playing) yield break;
+        // The player can sprint to the planned spawn during preparation.
+        // Recheck at release time and keep waiting if no safe reachable point exists.
+        while (!PositionEnemyForNewRun())
+        {
+            enemyReleaseAt = Time.time + 1f;
+            yield return new WaitForSeconds(1f);
+            if (state != GameState.Playing) yield break;
+        }
+        SetEnemyRootActive(true);
+        Debug.Log("LEVEL0_ENCOUNTER_BEGIN distance="+Vector3.Distance(enemy.transform.position,playerHealth.transform.position));
+        preparation = null;
+    }
+
+    private bool PositionEnemyForNewRun()
+    {
+        if (!enemy || !playerHealth) return false;
+        Vector3 origin = playerHealth.transform.position;
+        var agent = enemy.GetComponent<NavMeshAgent>();
+        int areas = agent ? agent.areaMask : NavMesh.AllAreas;
+        if (!NavMesh.SamplePosition(origin,out NavMeshHit playerNav,3f,areas))
+        { Debug.LogError("LEVEL0_ENCOUNTER_PLAYER_NAVMESH_MISSING"); return false; }
+        var path = new NavMeshPath();
+        Vector3 selected = enemy.transform.position;
+        float bestScore = float.NegativeInfinity;
+        for (int ring=0;ring<4;ring++)
+        for (int step=0;step<16;step++)
+        {
+            float angle=step*22.5f*Mathf.Deg2Rad;
+            Vector3 target=origin+new Vector3(Mathf.Sin(angle),0,Mathf.Cos(angle))*(minimumEnemyDistance+ring*4);
+            if(!NavMesh.SamplePosition(target,out NavMeshHit hit,2f,areas))continue;
+            float distance=Vector3.Distance(Vector3.ProjectOnPlane(hit.position-origin,Vector3.up),Vector3.zero);
+            if(distance<minimumEnemyDistance||!NavMesh.CalculatePath(hit.position,playerNav.position,areas,path)||path.status!=NavMeshPathStatus.PathComplete)continue;
+            bool hidden=Physics.Linecast(origin+Vector3.up*1.4f,hit.position+Vector3.up*1.4f,1<<12,QueryTriggerInteraction.Ignore);
+            float score=(hidden?100:0)-Mathf.Abs(distance-(minimumEnemyDistance+4));
+            if(score>bestScore){bestScore=score;selected=hit.position;}
+        }
+        if(float.IsNegativeInfinity(bestScore))
+        { Debug.LogError("LEVEL0_ENCOUNTER_NO_DISTANT_SPAWN minimum="+minimumEnemyDistance); return false; }
+        enemy.transform.position=selected;
+        EnemySpawnDistance=Vector3.Distance(Vector3.ProjectOnPlane(selected-origin,Vector3.up),Vector3.zero);
+        Debug.Log("LEVEL0_ENCOUNTER_PREPARED seconds="+preparationSeconds+" distance="+EnemySpawnDistance+" navmesh=complete");
+        return true;
     }
 
     private void EnterVictory()
@@ -215,6 +287,7 @@ public class Level0GameFlow : MonoBehaviour
         }
 
         state = GameState.Victory;
+        if (PicoFreshRuntime.Instance) PicoFreshRuntime.Instance.SetPaused(false);
         SetPlayerGameplayEnabled(false);
         SetBgmRootActive(false);
         SetEnemyRootActive(false);
@@ -232,6 +305,7 @@ public class Level0GameFlow : MonoBehaviour
         }
 
         state = GameState.GameOver;
+        if (PicoFreshRuntime.Instance) PicoFreshRuntime.Instance.SetPaused(false);
         SetPlayerGameplayEnabled(false);
         FreezeEnemyForResultScreen();
         SetBgmRootActive(false);
@@ -297,6 +371,18 @@ public class Level0GameFlow : MonoBehaviour
             playerBody = playerHealth.GetComponent<Rigidbody>();
         }
 
+        // PICO mounts the visible weapon subtree below XR Camera before this
+        // flow initializes, so discover the same authored weapon components in
+        // the loaded scene if they are no longer children of the physics root.
+        if (automaticWeapons == null || automaticWeapons.Length == 0)
+        {
+            automaticWeapons = FindObjectsByType<AutomaticGunScriptLPFP>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        }
+        if (handgunWeapons == null || handgunWeapons.Length == 0)
+        {
+            handgunWeapons = FindObjectsByType<HandgunScriptLPFP>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        }
+
         if (enemy != null)
         {
             enemyAnimators = enemy.GetComponentsInChildren<Animator>(true);
@@ -335,28 +421,40 @@ public class Level0GameFlow : MonoBehaviour
     {
         if (playerController != null && (enabled || playerHealth == null || !playerHealth.IsDead))
         {
-            playerController.enabled = enabled;
+            playerController.enabled = enabled && !PicoFreshRuntime.IsPicoXrActive;
         }
 
-        SetComponentsEnabled(automaticWeapons, enabled);
-        SetComponentsEnabled(handgunWeapons, enabled);
+        SetComponentsEnabled(automaticWeapons, enabled && !PicoFreshRuntime.IsPicoXrActive);
+        SetComponentsEnabled(handgunWeapons, enabled && !PicoFreshRuntime.IsPicoXrActive);
+        if (PicoFreshRuntime.IsPicoXrActive)
+        {
+            PicoFreshRuntime.SetViewModelVisible(enabled);
+        }
 
         if (combatHud != null)
         {
-            // Show the pre-existing health bars only during a live run.  This
-            // leaves the Figma menu, win and lose images completely untouched.
-            combatHud.showBars = enabled;
+            // PICO uses the XR-compatible original blood-bar layer. Keep the
+            // legacy OnGUI bars for desktop, but do not rely on IMGUI inside
+            // the stereo compositor.
+            combatHud.showBars = enabled && !PicoFreshRuntime.IsPicoXrActive;
             combatHud.showTerminalState = false;
         }
 
         if (legacyPlayerCanvas != null)
         {
-            // Restore the original weapon UI (crosshair/ammo presentation)
-            // during gameplay, and hide it behind every Figma full-page view.
-            legacyPlayerCanvas.SetActive(enabled);
+            // The authored Player Canvas contains the original ammo count,
+            // weapon name and crosshair. PicoFreshRuntime routes and scales it
+            // for the XR camera before this state is entered.
+            legacyPlayerCanvas.SetActive(enabled && !PicoFreshRuntime.IsPicoXrActive);
         }
 
-        if (!enabled && playerBody != null)
+        Debug.Log("[Level0UI] ORIGINAL_GAMEPLAY_HUD enabled=" + enabled +
+                  " bloodBars=" + (combatHud != null && combatHud.showBars) +
+                  " ammoCanvas=" + (legacyPlayerCanvas != null && legacyPlayerCanvas.activeInHierarchy) +
+                  " xrBloodBars=" + (PicoFreshRuntime.IsPicoXrActive && enabled) +
+                  " figmaGameplay=" + (gameplayHud != null && gameplayHud.activeInHierarchy) + ".", this);
+
+        if (!enabled && playerBody != null && !playerBody.isKinematic)
         {
             playerBody.linearVelocity = Vector3.zero;
             playerBody.angularVelocity = Vector3.zero;
@@ -365,7 +463,7 @@ public class Level0GameFlow : MonoBehaviour
                 playerBody.constraints = RigidbodyConstraints.FreezeAll;
             }
         }
-        else if (enabled && playerBody != null && (playerHealth == null || !playerHealth.IsDead))
+        else if (enabled && playerBody != null && !playerBody.isKinematic && (playerHealth == null || !playerHealth.IsDead))
         {
             playerBody.constraints = RigidbodyConstraints.FreezeRotation;
         }
@@ -466,6 +564,7 @@ public class Level0GameFlow : MonoBehaviour
 
     private void UpdateGameplayHud()
     {
+        if (PicoFreshRuntime.IsPicoXrActive) return;
         if (playerHealth != null)
         {
             float health = playerHealth.NormalizedHealth;
@@ -545,7 +644,19 @@ public class Level0GameFlow : MonoBehaviour
     private void ReloadCurrentScene()
     {
         Time.timeScale = 1f;
+        if (PicoFreshRuntime.IsPicoXrActive && !Application.isEditor)
+        {
+            // Re-enter the lightweight XR bootstrap so the runtime loader and
+            // AssetBundle lifecycle are rebuilt before jogo is loaded again.
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+            return;
+        }
+
         Scene currentScene = SceneManager.GetActiveScene();
+#if UNITY_EDITOR
+        UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(currentScene.path, new LoadSceneParameters(LoadSceneMode.Single));
+        return;
+#else
         if (currentScene.buildIndex >= 0)
         {
             SceneManager.LoadScene(currentScene.buildIndex);
@@ -554,6 +665,7 @@ public class Level0GameFlow : MonoBehaviour
         {
             SceneManager.LoadScene(currentScene.name);
         }
+#endif
     }
 
     private static void SetComponentsEnabled(Behaviour[] components, bool enabled)

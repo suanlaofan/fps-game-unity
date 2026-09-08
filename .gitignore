@@ -35,3 +35,17 @@ sysinfo.txt
 *.aab
 *.app
 *.unitypackage
+
+# Generated runtime scene bundle. Rebuild with PicoFreshBuild.BuildGameplayBundle.
+# Keep Assets/Level0VR/Generated and Assets/PicoFresh/Generated source assets tracked.
+/Assets/StreamingAssets/*.bundle
+/Assets/StreamingAssets/*.bundle.meta
+/Assets/StreamingAssets/*.manifest
+/Assets/StreamingAssets/*.manifest.meta
+/Assets/StreamingAssets/StreamingAssets
+/Assets/StreamingAssets/StreamingAssets.meta
+
+# Local build tooling state
+/.gradle/
+/.cache/
+/*.apk.sha256

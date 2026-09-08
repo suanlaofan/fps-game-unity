@@ -1,0 +1,29 @@
+{
+  "version": "1.2.3-vr-feedback",
+  "versionCode": 15,
+  "device": "emulator-5554",
+  "avd": "Pico_Emulator_0_13",
+  "apkSha256": "42198f7f7832b4f4f069a755d5cc68acfd55672eb2a653eafc3e28dd067b0d86",
+  "installedBaseApkHashMatches": true,
+  "nativeMenuVisuals": [
+    "emulator-menu.png",
+    "emulator-victory.png",
+    "emulator-gameover.png"
+  ],
+  "nativeTriggerAnchorError": 0,
+  "nativeMountPitchDegrees": 15,
+  "editorNormalAndInspectionHoldVerified": true,
+  "nativeStartTriggerVerified": true,
+  "nativeSprintToggleVerified": true,
+  "nativePartialMagazineReloadVerified": false,
+  "physicalHeadsetVerified": false,
+  "performanceScope": "Two selected contiguous playing segments approximately 60 FPS; complete records retain low FPS windows whose causes are not fully established.",
+  "handoffPid": 11530,
+  "handoffState": "Start menu visible in native PICO window",
+  "handoffScreenshot": "emulator-ready-for-user.png",
+  "handoffRightControllerLocalToHeadMeters": [
+    0.25,
+    -0.35,
+    0.4
+  ]
+}

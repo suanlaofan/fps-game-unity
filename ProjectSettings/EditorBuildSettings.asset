@@ -6,6 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/jogo.unity
-    guid: 7aa6152908b0e764bb03b0d1b322513d
-  m_configObjects: {}
+    path: Assets/Scenes/PicoFreshBootstrap.unity
+    guid: 72eda5d51cb7146848d17dedcb85aaba
+  m_configObjects:
+    ByteDance.PICO.XR.Settings: {fileID: 11400000, guid: 35d5275e95ad3460eb52e365f873cf86,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 1a1ce2fc913a44af7b836a5848fa7479,
+      type: 2}

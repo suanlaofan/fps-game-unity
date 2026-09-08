@@ -9,7 +9,7 @@ public static class EnemyPhaseChaseSetup
 {
     private const float DoubledSpeed = 7f;
 
-    [MenuItem("Tools/FPS Game/Apply Phase Chase And Double Speed")]
+    [MenuItem("Tools/FPS Game/Apply NavMesh Chase And Double Speed")]
     public static void Apply()
     {
         EnemyController enemy = FindEnemy();
@@ -19,12 +19,8 @@ public static class EnemyPhaseChaseSetup
             return;
         }
 
-        Undo.RecordObject(enemy, "Configure Enemy Phase Chase");
+        Undo.RecordObject(enemy, "Configure Enemy NavMesh Chase");
         enemy.moveSpeed = DoubledSpeed;
-        enemy.phaseRecoveryRadius = 2f;
-        enemy.phaseGroundTolerance = 0.2f;
-        enemy.phaseEnterDelay = 0.03f;
-        enemy.phaseExitDelay = 0.15f;
         EditorUtility.SetDirty(enemy);
 
         NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
@@ -42,16 +38,16 @@ public static class EnemyPhaseChaseSetup
             EditorSceneManager.SaveScene(scene);
         }
 
-        Debug.Log($"[EnemyPhase] SUCCESS enemy='{enemy.name}' speed={DoubledSpeed:0.##}, phaseThroughGeometryWhenNotVisible=true, floorYLocked=true.", enemy);
+        Debug.Log($"[EnemyNav] SUCCESS enemy='{enemy.name}' speed={DoubledSpeed:0.##}, wallPhasing=false, navMeshOnly=true.", enemy);
     }
 
-    [MenuItem("Tools/FPS Game/Validate Phase Chase")]
+    [MenuItem("Tools/FPS Game/Validate NavMesh Chase")]
     public static void Validate()
     {
         EnemyController enemy = FindEnemy();
         if (enemy == null)
         {
-            Debug.LogError("[EnemyPhase] VALIDATE failed: no EnemyController found.");
+            Debug.LogError("[EnemyNav] VALIDATE failed: no EnemyController found.");
             return;
         }
 
@@ -71,11 +67,11 @@ public static class EnemyPhaseChaseSetup
                           (agent == null || Mathf.Abs(agent.speed - DoubledSpeed) < 0.01f);
         if (!speedValid)
         {
-            Debug.LogError($"[EnemyPhase] VALIDATE failed: moveSpeed={enemy.moveSpeed:0.##}, agentSpeed={(agent != null ? agent.speed : -1f):0.##}.", enemy);
+            Debug.LogError($"[EnemyNav] VALIDATE failed: moveSpeed={enemy.moveSpeed:0.##}, agentSpeed={(agent != null ? agent.speed : -1f):0.##}.", enemy);
             return;
         }
 
-        Debug.Log($"[EnemyPhase] VALIDATE speed={enemy.moveSpeed:0.##}, eligibleViewCameras={eligibleCameras}, recoveryRadius={enemy.phaseRecoveryRadius:0.##}, groundTolerance={enemy.phaseGroundTolerance:0.##}, enterDelay={enemy.phaseEnterDelay:0.##}, exitDelay={enemy.phaseExitDelay:0.##}.", enemy);
+        Debug.Log($"[EnemyNav] VALIDATE speed={enemy.moveSpeed:0.##}, eligibleViewCameras={eligibleCameras}, wallPhasing=false, navMeshOnly=true.", enemy);
     }
 
     private static EnemyController FindEnemy()
